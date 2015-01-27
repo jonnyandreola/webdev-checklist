@@ -1,7 +1,8 @@
-function HomeController() {
+function HomeController($scope, $location, localStorageService) {
     var vm = this;
 
-    vm.title = 'Home';
+    var hasProject = localStorageService.get('project');
+
 
     vm.project = {};
 
@@ -9,10 +10,10 @@ function HomeController() {
 
     vm.project.todos = {
         'General': [
-            {name: 'Favicon', done: true, note: 'Use the following tool to generate your favicon LINK'},
+            {name: 'Favicon', done: false, note: 'Use the following tool to generate your favicon LINK'},
             {name: '404 Page', done: false, note: 'Include Apple icons following this guidelines LINK'},
             {name: 'Others error pages', done: false, note: 'Include Apple icons following this guidelines LINK'},
-            {name: 'Apple Icon', done: true, note: 'Include Apple icons following this guidelines LINK'},
+            {name: 'Apple Icon', done: false, note: 'Include Apple icons following this guidelines LINK'},
             {name: 'README.md', done: false, note: 'create a README.md file with instructions LINK'},
             {name: 'Wiki', done: false, note: 'Include important info regarding this project in a wiki'}
         ],
@@ -20,13 +21,13 @@ function HomeController() {
             {name: 'Google Page Insights', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'Yslow', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'GtMetrix', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Minification', done: true, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
+            {name: 'Minification', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'Page Size', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
         ],
         'Validation' : [
             {name: 'HTML', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'CSS', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Javascript', done: true, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
+            {name: 'Javascript', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'IE Check', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
             {name: 'Others browsers', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
         ],
@@ -39,11 +40,18 @@ function HomeController() {
         ],
         'Test' : [
             {name: 'No Javascript', done: false, note: 'Lorem ipsum dolor sit amet.'},
-            {name: 'Forms', done: true, note: '<meta name="description" content="Here is a description of the applicable page">'},
+            {name: 'Forms', done: false, note: '<meta name="description" content="Here is a description of the applicable page">'},
             {name: 'Links', done: false, note: 'Use the following tool to generate your favicon LINK'},
-            {name: 'Responsiveness', done: true, note: 'Use the following tool to generate your favicon LINK'},
+            {name: 'Responsiveness', done: false, note: 'Use the following tool to generate your favicon LINK'},
         ]
     };
+
+    vm.modal = true;
+
+    if(hasProject) {
+        vm.project = hasProject;
+        vm.modal = false;
+    }
 
     vm.updateProgress = function(){
         var total   = 0,
@@ -67,6 +75,23 @@ function HomeController() {
         vm.project.myTodos.push({name: entry, done: false});
     };
 
+
+    // Save in storage
+    vm.save = function(){
+        localStorageService.set('project', vm.project);
+    };
+
+    $scope.$watch(angular.bind(this, function (project) {
+        return this.project;
+    }), function(){
+        console.log('here');
+        vm.save();
+    }, true);
+
+    vm.clearAll = function(){
+         localStorageService.remove('project');
+         $location.path('#!/');
+    };
 }
 
 angular

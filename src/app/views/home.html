@@ -1,49 +1,89 @@
-<header id="primary-header">
-    <div class="container">
-        <h1>Webdev Checklist</h1>    
-        <div class="progress" ng-init="Home.updateProgress()">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ Home.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Home.progress }}%;">
-                {{ Home.progress | number: 0}}%
+<div class="wrapper" ng-class="{'blur': Home.modal}">
+    <header id="primary-header">
+        <div class="container">
+            <h1>{{ Home.project.name }} Checklist</h1>
+            <button class="btn btn-xs btn-danger pull-right" ng-click="Home.clearAll()"><i class="fa fa-white fa-trash"></i> Clear all</button>
+            <div class="progress" ng-init="Home.updateProgress()">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ Home.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Home.progress }}%;">
+                    {{ Home.progress | number: 0}}%
+                </div>
             </div>
         </div>
-    </div>
-</header>
-<main class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <ul>
-                <button class="btn btn-primary btn-sm pull-right" ng-click="Home.completed = !Home.completed">
-                    <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
-                </button>
-                <li ng-repeat="(group, items) in Home.project.todos">
-                    <h2>{{ group }}</h2>
-                    <ul class="list">
-                        <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
-                            <label>
-                                <input type="checkbox" ng-model="item.done" ng-click="Home.updateProgress()">
-                                {{ item.name }}
-                            </label>
-                            <small>{{ item.note }}</small>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+    </header>
+    <main class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ul>
+                    <button class="btn btn-primary btn-sm pull-right" ng-click="Home.completed = !Home.completed">
+                        <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
+                    </button>
+                    <li ng-repeat="(group, items) in Home.project.todos">
+                        <h2>{{ group }}</h2>
+                        <ul class="list">
+                            <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
+                                <label>
+                                    <input type="checkbox" ng-model="item.done" ng-click="Home.updateProgress()">
+                                    {{ item.name }}
+                                </label>
+                                <small>{{ item.note }}</small>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h2>My Todo</h2>
+                <ul>
+                    <li ng-repeat="item in Home.project.myTodos">
+                        <label>
+                            <input type="checkbox" ng-model="item.done">
+                            {{ item.name }}
+                        </label>
+                    </li>
+                </ul>
+                <input class="form-control" type="text" ng-model="Home.newEntry" placeholder="add new todo..." ng-keyup="$event.keyCode == 13 && Home.addNewEntry(Home.newEntry)">
+                <h2>Notes</h2>
+                <textarea class="notepad" ng-model="Home.project.notes"></textarea>
+            </div>
         </div>
-        <div class="col-md-4">
-            <h2>My Todo</h2>
-            <ul>
-                <li ng-repeat="item in Home.project.myTodos">
-                    <label>
-                        <input type="checkbox" ng-model="item.done">
-                        {{ item.name }}
-                    </label>
-                </li>
-            </ul>
-            <input class="form-control" type="text" ng-model="Home.newEntry" placeholder="add new todo..." ng-keyup="$event.keyCode == 13 && Home.addNewEntry(Home.newEntry)">
-            <h2>Notes</h2>
-            <textarea class="notepad">
-                
-            </textarea>
-        </div>
-    </div>
-</main>
+    </main>
+</div>
+<div class="project-modal" ng-show="Home.modal">
+    <form class="form-horizontal">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Project Settings</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Project Name:</label>  
+                <div class="col-md-8">
+                    <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" ng-model="Home.project.name">
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="selectbasic">Select checklist:</label>
+                <div class="col-md-8">
+                    <select id="selectbasic" name="selectbasic" class="form-control" ng-model="Home.project.type">
+                        <option value="1">Webdev</option>
+                        <option value="2">Backend</option>
+                        <option value="2">QA</option>
+                        <option value="2">Design</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-8">
+                    <button id="singlebutton" name="singlebutton" class="btn btn-success pull-right" ng-click="Home.modal = !Home.modal; Home.save()">OK</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>

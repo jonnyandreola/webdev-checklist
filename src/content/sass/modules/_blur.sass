@@ -1,0 +1,17 @@
+/* Blur effect */
+.blur
+    -moz-filter: blur(10px)
+    -o-filter: blur(10px)
+    -ms-filter: blur(10px)
+    filter: blur(10px)
+    filter: progid:DXImageTransform.Microsoft.Blur( PixelRadius='10' )
+    filter: url(/img/blur.svg#blur)
+    -webkit-filter: blur(10px)
+    &.done
+        -moz-filter: blur(0)
+        -o-filter: blur(0)
+        -ms-filter: blur(0)
+        filter: blur(0)
+        filter: progid:DXImageTransform.Microsoft.Blur( PixelRadius='0' )
+        filter: url(/img/blur.svg#blur-zero)
+        -webkit-filter: blur(0)

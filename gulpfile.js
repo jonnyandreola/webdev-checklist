@@ -19,6 +19,7 @@ var modules = {
         autoprefix : 'gulp-autoprefixer',
         jshint     : 'gulp-jshint',
         size       : 'gulp-size',
+        rimraf     : 'gulp-rimraf',
         browserSync: 'browser-sync'
     };
 
@@ -82,7 +83,8 @@ gulp.task('vendor', function(){
         'bower_components/angular-resource/angular-resource.js',
         'bower_components/angular-route/angular-route.js',
         'bower_components/angular-bootstrap/ui-bootstrap.js',
-        'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
+        'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+        'bower_components/angular-local-storage/dist/angular-local-storage.js'
     ];
 
     return gulp.src(dependencies)
@@ -137,6 +139,18 @@ gulp.task('views', function(){
 
 });
 
+////////////
+// IMAGES //
+////////////
+gulp.task('images:clean', function() {
+    return gulp.src('public/img/*', { read: false }) // much faster
+    .pipe($.rimraf());
+});
+gulp.task('images', ['images:clean'], function () {
+    return gulp.src('src/content/img/*')
+        .pipe(gulp.dest('public/img/'));
+});
+
 ///////////
 // INDEX //
 ///////////
@@ -144,7 +158,7 @@ gulp.task('views', function(){
 /**
  * Injects dependencies and save file into public
 */
-gulp.task('index', ['vendor', 'script', 'style'], function () {
+gulp.task('index', ['vendor', 'script', 'style', 'images'], function () {
 
     // Move index to puvlic location
     return gulp.src(PATH.src.appRoot + '/index.html')
