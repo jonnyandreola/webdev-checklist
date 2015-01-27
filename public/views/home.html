@@ -1,11 +1,26 @@
 <div class="wrapper" ng-class="{'blur': Home.modal}">
     <header id="primary-header">
         <div class="container">
-            <h1>{{ Home.project.name }} Checklist</h1>
-            <button class="btn btn-xs btn-danger pull-right" ng-click="Home.clearAll()"><i class="fa fa-white fa-trash"></i> Clear all</button>
-            <div class="progress" ng-init="Home.updateProgress()">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{ Home.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Home.progress }}%;">
-                    {{ Home.progress | number: 1}}%
+            <div class="row">
+                <h1 class="col-md-8">{{ Home.project.name }} Checklist</h1>
+                <div class="col-md-4 top-buttons">
+                    <div class="pull-right">
+                        <button class="btn btn-sm btn-primary" ng-click="Home.modal = true; Home.newModal = true">New checklist</button>
+                        <button class="btn btn-sm btn-success" ng-click="Home.modal = true; Home.existingModal = true">Choose existing project</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="progress" ng-init="Home.updateProgress()">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ Home.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Home.progress }}%;">
+                                {{ Home.progress | number: 1}}%
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <button class="btn btn-xs btn-danger pull-right" ng-click="Home.clearAll()"><i class="fa fa-white fa-trash"></i> Remove Project</button>
                 </div>
             </div>
         </div>

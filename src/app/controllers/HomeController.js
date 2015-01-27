@@ -67,7 +67,7 @@ function HomeController($scope, $location, localStorageService, TodoService) {
     $scope.$watch(angular.bind(this, function (project) {
         return this.project;
     }), function(n, o){
-        if(n != 0) {
+        if(n !== 0) {
             vm.save();
         }
     }, true);
