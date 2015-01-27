@@ -18,7 +18,7 @@
                         <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
                     </button>
                     <li ng-repeat="(group, items) in Home.project.todos">
-                        <h2>{{ group }}</h2>
+                        <h3>{{ group }}</h3>
                         <ul class="list">
                             <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
                                 <label>
@@ -32,9 +32,9 @@
                 </ul>
             </div>
             <div class="col-md-4">
-                <h2>My Todo</h2>
-                <ul>
-                    <li ng-repeat="item in Home.project.myTodos">
+                <h3>My Todo</h3>
+                <ul class="list my-todo">
+                    <li ng-repeat="item in Home.project.myTodos" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
                         <label>
                             <input type="checkbox" ng-model="item.done">
                             {{ item.name }}
@@ -42,7 +42,8 @@
                     </li>
                 </ul>
                 <input class="form-control" type="text" ng-model="Home.newEntry" placeholder="add new todo..." ng-keyup="$event.keyCode == 13 && Home.addNewEntry(Home.newEntry)">
-                <h2>Notes</h2>
+                <hr>
+                <h3>Notes</h3>
                 <textarea class="notepad" ng-model="Home.project.notes"></textarea>
             </div>
         </div>

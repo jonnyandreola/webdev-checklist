@@ -462,6 +462,9 @@ ul li {
 .list li.completed > * {
   text-decoration: line-through !important;
 }
+.list.my-todo {
+  background-color: #fcfcfc;
+}
 
 .notepad {
   background: url(http://i.stack.imgur.com/ynxjD.png) repeat-y;
