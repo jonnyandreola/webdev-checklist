@@ -1,0 +1,49 @@
+<header id="primary-header">
+    <div class="container">
+        <h1>Webdev Checklist</h1>    
+        <div class="progress" ng-init="Home.updateProgress()">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ Home.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Home.progress }}%;">
+                {{ Home.progress | number: 0}}%
+            </div>
+        </div>
+    </div>
+</header>
+<main class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <ul>
+                <button class="btn btn-primary btn-sm pull-right" ng-click="Home.completed = !Home.completed">
+                    <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
+                </button>
+                <li ng-repeat="(group, items) in Home.project.todos">
+                    <h2>{{ group }}</h2>
+                    <ul class="list">
+                        <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
+                            <label>
+                                <input type="checkbox" ng-model="item.done" ng-click="Home.updateProgress()">
+                                {{ item.name }}
+                            </label>
+                            <small>{{ item.note }}</small>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>My Todo</h2>
+            <ul>
+                <li ng-repeat="item in Home.project.myTodos">
+                    <label>
+                        <input type="checkbox" ng-model="item.done">
+                        {{ item.name }}
+                    </label>
+                </li>
+            </ul>
+            <input class="form-control" type="text" ng-model="Home.newEntry" placeholder="add new todo..." ng-keyup="$event.keyCode == 13 && Home.addNewEntry(Home.newEntry)">
+            <h2>Notes</h2>
+            <textarea class="notepad">
+                
+            </textarea>
+        </div>
+    </div>
+</main>

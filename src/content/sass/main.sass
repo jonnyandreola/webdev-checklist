@@ -1,0 +1,41 @@
+@import "lib/lib"
+@import "global/global"
+@import "modules/modules"
+
+#primary-header
+    position: fixed
+    background-color: white
+    z-index: 2
+    width: 100%
+    box-shadow: 0 0 10px #ccc
+
+main
+    padding-top: 120px
+
+ul li
+    list-style: none
+
+.list
+    background-color: #f5f5f5
+    color: #555
+    padding: 0 !important
+    font-family: courier, monospace
+    border: 1px solid #dedede
+    li
+        list-style: none
+        padding: 5px 0
+        border-bottom: 1px dotted #ccc
+        text-indent: 5px
+        height: auto
+        overflow: hidden
+        &.completed > *
+            text-decoration: line-through !important
+
+.notepad
+    background: url(http://i.stack.imgur.com/ynxjD.png) repeat-y
+    width: 100%
+    height: 300px
+    font: normal 14px verdana
+    line-height: 25px
+    padding: 2px 10px
+    border: solid 1px #ddd
