@@ -1,97 +1,76 @@
-function HomeController($scope, $location, localStorageService) {
+function HomeController($scope, $location, localStorageService, TodoService) {
     var vm = this;
 
-    var hasProject = localStorageService.get('project');
-
-
+    // Initialize a blank project
     vm.project = {};
-
     vm.project.myTodos = [];
 
-    vm.project.todos = {
-        'General': [
-            {name: 'Favicon', done: false, note: 'Use the following tool to generate your favicon LINK'},
-            {name: '404 Page', done: false, note: 'Include Apple icons following this guidelines LINK'},
-            {name: 'Others error pages', done: false, note: 'Include Apple icons following this guidelines LINK'},
-            {name: 'Apple Icon', done: false, note: 'Include Apple icons following this guidelines LINK'},
-            {name: 'README.md', done: false, note: 'create a README.md file with instructions LINK'},
-            {name: 'Wiki', done: false, note: 'Include important info regarding this project in a wiki'}
-        ],
-        'Performance' : [
-            {name: 'Google Page Insights', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Yslow', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'GtMetrix', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Minification', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Page Size', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-        ],
-        'Validation' : [
-            {name: 'HTML', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'CSS', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Javascript', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'IE Check', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-            {name: 'Others browsers', done: false, note: ' Lorem ipsum dolor sit amet, consectetur adipisicing. LINK'},
-        ],
-        'SEO' : [
-            {name: 'Title', done: false, note: 'Lorem ipsum dolor sit amet.'},
-            {name: 'Description', done: false, note: '<meta name="description" content="Here is a description of the applicable page">'},
-            {name: 'Google Analytics', done: false, note: 'Use the following tool to generate your favicon LINK'},
-            {name: 'Sitemap', done: false, note: 'Use the following tool to generate your favicon LINK'},
-            {name: 'Robots.txt', done: false, note: 'Use the following tool to generate your favicon LINK'},
-        ],
-        'Test' : [
-            {name: 'No Javascript', done: false, note: 'Lorem ipsum dolor sit amet.'},
-            {name: 'Forms', done: false, note: '<meta name="description" content="Here is a description of the applicable page">'},
-            {name: 'Links', done: false, note: 'Use the following tool to generate your favicon LINK'},
-            {name: 'Responsiveness', done: false, note: 'Use the following tool to generate your favicon LINK'},
-        ]
-    };
 
-    vm.modal = true;
+    // Check if there is any project stored
+    vm.storedProjects = localStorageService.keys();
 
-    if(hasProject) {
-        vm.project = hasProject;
-        vm.modal = false;
+    // Overwrite blank project with stored data
+    if(vm.storedProjects) {
+        vm.modal = true;
+        vm.existingModal = true;
     }
 
-    vm.updateProgress = function(){
-        var total   = 0,
-            checked = 0;
-
-        for (var key in vm.project.todos) {
-            for (var i = vm.project.todos[key].length - 1; i >= 0; i--) {
-                total++;
-                if (vm.project.todos[key][i].done) {
-                    checked++;
-                }
-            }
-        }
-
-        vm.progress = (checked / total) * 100;
+    // view model functions
+    vm.updateModel = function(type){
+        vm.project.todos = TodoService.getModel(type);
     };
 
+    vm.updateProgress = function(){
+        vm.progress = TodoService.progress(vm.project);
+    };
 
     vm.addNewEntry = function(entry){
         vm.newEntry = '';
         vm.project.myTodos.push({name: entry, done: false});
+        vm.updateProgress();
     };
 
-
-    // Save in storage
     vm.save = function(){
-        localStorageService.set('project', vm.project);
+        if(vm.project.name) {
+            localStorageService.set(vm.project.name, vm.project);
+        }
     };
-
-    $scope.$watch(angular.bind(this, function (project) {
-        return this.project;
-    }), function(){
-        console.log('here');
-        vm.save();
-    }, true);
 
     vm.clearAll = function(){
-         localStorageService.remove('project');
+         localStorageService.remove(vm.project.name);
          $location.path('#!/');
     };
+
+    vm.loadChecklist = function(checklist){
+        vm.project = localStorageService.get(checklist);
+        vm.updateProgress();
+        vm.modal = false;
+        vm.existingModal = false;
+    };
+
+    vm.newChecklist = function(){
+        vm.modal = true;
+        vm.existingModal = false;
+        vm.newModal = true;
+    };
+
+    vm.createNew = function(newProject){
+        vm.project.name = newProject.name;
+        vm.project.todos = TodoService.getModel(newProject.type);
+        vm.modal = false;
+        vm.existingModal = false;
+        vm.newModal = false;
+        vm.save();
+    };
+
+    // Watch for changes on project and save
+    $scope.$watch(angular.bind(this, function (project) {
+        return this.project;
+    }), function(n, o){
+        if(n != 0) {
+            vm.save();
+        }
+    }, true);
 }
 
 angular

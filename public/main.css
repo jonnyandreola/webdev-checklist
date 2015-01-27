@@ -488,3 +488,7 @@ ul li {
   margin-top: 50vh;
   border-radius: 15px;
 }
+
+input[type='checkbox'] {
+  margin-right: 6px !important;
+}
