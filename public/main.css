@@ -468,7 +468,6 @@ ul li.example:after {
   background-color: #f5f5f5;
   color: #555;
   padding: 0 !important;
-  font-family: courier, monospace;
   border: 1px solid #dedede;
 }
 .list li {
@@ -494,6 +493,11 @@ ul li.example:after {
   line-height: 25px;
   padding: 2px 10px;
   border: solid 1px #ddd;
+}
+
+.note {
+  margin-left: 22px;
+  margin-bottom: 0;
 }
 
 .project-modal {

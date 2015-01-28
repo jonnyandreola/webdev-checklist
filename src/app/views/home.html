@@ -34,10 +34,10 @@
     <main class="container">
         <div class="row">
             <div class="col-md-8">
+                <button class="btn btn-primary btn-sm pull-right" ng-click="Home.completed = !Home.completed">
+                    <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
+                </button>
                 <ul>
-                    <button class="btn btn-primary btn-sm pull-right" ng-click="Home.completed = !Home.completed">
-                        <i ng-class="Home.completed ? 'fa-check-square' : 'fa-square'" class="fa fa-white"></i> Toogle completed
-                    </button>
                     <li ng-repeat="(group, items) in Home.project.todos">
                         <h3>{{ group }}</h3>
                         <ul class="list">
@@ -45,8 +45,8 @@
                                 <label>
                                     <input type="checkbox" ng-model="item.done" ng-change="Home.updateProgress()">{{ item.name }}
                                 </label>
-                                <p style="display: inline" ng-bind-html="item.note"></p>
-                                <pre ng-if="item.code" ng-show="item.showCode" ng-bind="item.code"></pre>
+                                <p class="note" ng-bind-html="item.note"></p>
+                                <pre ng-if="item.code" ng-show="item.showCode"><code ng-bind="item.code"></code></pre>
                             </li>
                         </ul>
                     </li>
@@ -87,9 +87,9 @@
                 <div class="col-md-8">
                     <select id="checklist_type" name="checklist_type" class="form-control" ng-model="Home.new.type" ng-change="Home.updateModel(Home.project.type)">
                         <option value="webdev">Webdev</option>
-                        <option value="backend">Backend</option>
-                        <option value="qa">QA</option>
-                        <option value="design">Design</option>
+                        <option value="backend" disabled>Backend (Not Available)</option>
+                        <option value="qa" disabled>QA (Not Available)</option>
+                        <option value="design" disabled>Design (Not Available)</option>
                     </select>
                 </div>
             </div>
