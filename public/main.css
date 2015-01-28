@@ -440,8 +440,24 @@ main {
   padding-top: 120px;
 }
 
+ul {
+  padding-left: 0;
+}
+
 ul li {
   list-style: none;
+  position: relative;
+}
+ul li.example:after {
+  content: "Example";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px;
+  border: 1px dashed #ccc;
+  background-color: #EEE;
+  font-size: 10px;
 }
 
 #primary-header .top-buttons {

@@ -3,8 +3,8 @@ function TodoService(){
     var todoModels = {
         'webdev': {
             'General': [
-                {name: 'Favicon', done: false, note: 'Use the following tool to generate your favicon LINK'},
-                {name: '404 Page', done: false, note: 'Include Apple icons following this guidelines LINK'},
+                {name: 'Favicon', done: false, note: 'This website <a href="http://realfavicongenerator.net/" target="_blank">generates</a> your favicon</a>'},
+                {name: '404 Page', done: false, note: 'Create a useful 404 page, more info cabe found <a href="https://support.google.com/webmasters/answer/93641?hl=en">here</a>'},
                 {name: 'Others error pages', done: false, note: 'Include Apple icons following this guidelines LINK'},
                 {name: 'Apple Icon', done: false, note: 'Include Apple icons following this guidelines LINK'},
                 {name: 'README.md', done: false, note: 'create a README.md file with instructions LINK'},
@@ -26,14 +26,14 @@ function TodoService(){
             ],
             'SEO' : [
                 {name: 'Title', done: false, note: 'Lorem ipsum dolor sit amet.'},
-                {name: 'Description', done: false, note: '<meta name="description" content="Here is a description of the applicable page">'},
+                {name: 'Description', done: false, note: 'Lorem ipsum dolor sit amet.', code: '<meta name="description" content="Here is a description of the applicable page">'},
                 {name: 'Google Analytics', done: false, note: 'Use the following tool to generate your favicon LINK'},
                 {name: 'Sitemap', done: false, note: 'Use the following tool to generate your favicon LINK'},
                 {name: 'Robots.txt', done: false, note: 'Use the following tool to generate your favicon LINK'},
             ],
             'Test' : [
                 {name: 'No Javascript', done: false, note: 'Lorem ipsum dolor sit amet.'},
-                {name: 'Forms', done: false, note: '<meta name="description" content="Here is a description of the applicable page">'},
+                {name: 'Forms', done: false, note: 'Lorem ipsum dolor sit.'},
                 {name: 'Links', done: false, note: 'Use the following tool to generate your favicon LINK'},
                 {name: 'Responsiveness', done: false, note: 'Use the following tool to generate your favicon LINK'},
             ]

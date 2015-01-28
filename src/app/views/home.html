@@ -5,8 +5,8 @@
                 <h1 class="col-md-8">{{ Home.project.name }} Checklist</h1>
                 <div class="col-md-4 top-buttons">
                     <div class="pull-right">
-                        <button class="btn btn-sm btn-primary" ng-click="Home.modal = true; Home.newModal = true">New checklist</button>
-                        <button class="btn btn-sm btn-success" ng-click="Home.modal = true; Home.existingModal = true">Choose existing project</button>
+                        <button class="btn btn-sm btn-primary" ng-click="Home.modal = true; Home.newModal = true"><i class="fa fa-file fa-white"></i> New</button>
+                        <button class="btn btn-sm btn-success" ng-click="Home.modal = true; Home.existingModal = true"><i class="fa fa-file-text fa-white"></i> Open</button>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,13 @@
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <button class="btn btn-xs btn-danger pull-right" ng-click="Home.clearAll()"><i class="fa fa-white fa-trash"></i> Remove Project</button>
+                    <div class="btn btn-xs btn-danger pull-right" ng-click="Home.confirm = !Home.confirm">
+                        <i class="fa fa-white fa-trash"></i> <span ng-bind="!Home.confirm ? 'Delete Project' : 'Are you sure?'">Remove Project</span>
+                        <div ng-if="Home.confirm">
+                            <button class="btn btn-xs btn-success">NO</button>
+                            <button class="btn btn-xs btn-primary" ng-click="Home.clearAll()">YES</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,11 +41,12 @@
                     <li ng-repeat="(group, items) in Home.project.todos">
                         <h3>{{ group }}</h3>
                         <ul class="list">
-                            <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done}">
+                            <li ng-repeat="item in items" ng-hide="Home.completed && item.done" ng-class="{'completed' : item.done, 'example': item.code}" ng-mouseenter="item.showCode = true" ng-mouseleave="item.showCode = false">
                                 <label>
                                     <input type="checkbox" ng-model="item.done" ng-change="Home.updateProgress()">{{ item.name }}
                                 </label>
-                                <small>{{ item.note }}</small>
+                                <p style="display: inline" ng-bind-html="item.note"></p>
+                                <pre ng-if="item.code" ng-show="item.showCode" ng-bind="item.code"></pre>
                             </li>
                         </ul>
                     </li>
@@ -90,7 +97,8 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="singlebutton"></label>
                 <div class="col-md-8">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-success pull-right" ng-click="Home.createNew(Home.new)">OK</button>
+                    <button class="btn btn-success pull-right" ng-click="Home.createNew(Home.new)">OK</button>
+                    <button class="btn btn-danger" ng-click="Home.modal = false; Home.newModal = false">Cancel</button>
                 </div>
             </div>
         </fieldset>
