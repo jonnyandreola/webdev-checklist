@@ -9,10 +9,12 @@ function HomeController($scope, $location, localStorageService, TodoService) {
     // Check if there is any project stored
     vm.storedProjects = localStorageService.keys();
 
-    // Overwrite blank project with stored data
-    if(vm.storedProjects) {
-        vm.modal = true;
+    // Switch which modal will pop up
+    vm.modal = true;
+    if(vm.storedProjects.length) {
         vm.existingModal = true;
+    } else {
+        vm.newModal = true;
     }
 
     // view model functions
@@ -55,11 +57,16 @@ function HomeController($scope, $location, localStorageService, TodoService) {
     };
 
     vm.createNew = function(newProject){
+        for (var i = 0; i < vm.storedProjects.length; i++) {
+            if (vm.storedProjects[i] === newProject.name) {
+                alert('Project already exists');
+                vm.modal = vm.newModal = true;
+                return false;
+            }
+        }
         vm.project.name = newProject.name;
         vm.project.todos = TodoService.getModel(newProject.type);
-        vm.modal = false;
-        vm.existingModal = false;
-        vm.newModal = false;
+        vm.modal = vm.existingModal = vm.newModal = false;
         vm.save();
     };
 
@@ -67,7 +74,7 @@ function HomeController($scope, $location, localStorageService, TodoService) {
     $scope.$watch(angular.bind(this, function (project) {
         return this.project;
     }), function(n, o){
-        if(n != 0) {
+        if(n !== 0) {
             vm.save();
         }
     }, true);

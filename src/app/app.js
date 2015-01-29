@@ -1,1 +1,1 @@
-angular.module('app', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ui.bootstrap', 'LocalStorageModule']);
+angular.module('app', ['ngAnimate', 'ngCookies', 'ngResource', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'LocalStorageModule']);
